@@ -12,7 +12,7 @@ class GridSearchSK():
         self.results = dict()
         for i, params in enumerate(self.pg):
             if  i % print_every_iter == 0:
-                print(f'Grid search: {i/grid_len}% done')
+                print(f'Grid search: {(i/grid_len)*100}% done')
             for param in params:
                 setattr(self.model, param, params[param]) 
             self.model.fit(X_train, Y_train)
@@ -38,6 +38,7 @@ if __name__ == '__main__':
 
 
     param_grid = {'n_estimators': [2, 25], 'max_depth': [1, 10], 'criterion': ['gini']}
+    param_grid = {'max_depth': [1, 10]}
     df = pd.DataFrame(
         {
         # 'a': range(1, 101), 
