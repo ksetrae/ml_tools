@@ -13,8 +13,7 @@ class GridSearchSK():
         for i, params in enumerate(self.pg):
             if  i % print_every_iter == 0:
                 print(f'Grid search: {(i/grid_len)*100}% done')
-            for param in params:
-                setattr(self.model, param, params[param]) 
+            self.model.set_params(**params)
             self.model.fit(X_train, Y_train)
             self.results[i] = {'params': str(params), 'value': self.model.score(X_val, Y_val)}
 
