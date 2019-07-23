@@ -1,0 +1,1 @@
+As for sklearn GridSearchCV, to set parameters for a pipeline use format '<step_name>__<param_name>'
