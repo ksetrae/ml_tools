@@ -22,6 +22,7 @@ class GridSearchSK:
         self.results = pd.DataFrame.from_dict(self.results, orient='index')
 
     def print_n_best(self, n):
+        print(f'{n} best results:')
         if self.results is None:
             raise AttributeError('Grid search was not fitted, use fit() method')
         if n > self.results.shape[0]:
@@ -54,6 +55,4 @@ if __name__ == '__main__':
     gs = GridSearchSK(clf, param_grid)
     gs.fit(X[:70], y[:70], X[70:], y[70:])
 
-    print(gs.results)
-    print()
     gs.print_n_best(2)
