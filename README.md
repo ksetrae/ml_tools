@@ -6,7 +6,7 @@ but have different interface and output style (more convenient, in my opinion).
 
 ### Install
 ```
-pip install git+https:github.com/ksetrae/sklearn_search_tools.git
+pip install git+https://github.com/ksetrae/sklearn_search_tools.git
 ```
 ### Usage example:  
 _Set the data and the model type_  
