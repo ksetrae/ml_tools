@@ -8,7 +8,7 @@ class GridSearchSK:
         self.pg = ParameterGrid(param_grid)
         self.results = None
 
-    def fit(self, X_train, Y_train, X_val, Y_val, verbose=True):
+    def fit(self, x_train, y_train, x_val, y_val):
         grid_len = float(len(self.pg))
         print_every_iter = int(grid_len / 100.) + 1
         self.results = dict()
@@ -16,8 +16,8 @@ class GridSearchSK:
             if i % print_every_iter == 0:
                 print(f'Grid search: {(i / grid_len) * 100}% done')
             self.model.set_params(**params)
-            self.model.fit(X_train, Y_train)
-            self.results[i] = {'params': str(params), 'value': self.model.score(X_val, Y_val)}
+            self.model.fit(x_train, y_train)
+            self.results[i] = {'params': str(params), 'value': self.model.score(x_val, y_val)}
 
         self.results = pd.DataFrame.from_dict(self.results, orient='index')
 
@@ -38,21 +38,20 @@ if __name__ == '__main__':
     from sklearn.ensemble import RandomForestClassifier
     import pandas as pd
 
-    param_grid = {'n_estimators': [2, 25], 'max_depth': [1, 10], 'criterion': ['gini']}
-    # param_grid = {'max_depth': [1, 10]}
+    PARAM_GRID = {'n_estimators': [2, 25], 'max_depth': [1, 10], 'criterion': ['gini']}
     df = pd.DataFrame(
         {
-            # 'a': range(1, 101),
+            'a': range(1, 101),
             'b': [b * random.random() for b in range(1, 101)],
             'c': [1 if c < 50 else 0 for c in range(1, 101)]
         }
     )
     df = df.sample(frac=1)
-    X = df[['b']]
+    X = df[['a', 'b']]
     y = df['c']
 
     clf = RandomForestClassifier(random_state=7, n_jobs=-1)
-    gs = GridSearchSK(clf, param_grid)
+    gs = GridSearchSK(clf, PARAM_GRID)
     gs.fit(X[:70], y[:70], X[70:], y[70:])
 
-    gs.print_n_best(2)
+    gs.print_n_best(n=2)
