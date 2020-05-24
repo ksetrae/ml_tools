@@ -10,16 +10,16 @@ class GridSearchSK:
 
     def fit(self, x_train, y_train, x_val, y_val):
         grid_len = float(len(self.pg))
-        print_every_iter = int(grid_len / 100.) + 1
-        self.results = dict()
+        progr_report_freq = int(grid_len / 100.) + 1
+        curr_results = dict()
         for i, params in enumerate(self.pg):
-            if i % print_every_iter == 0:
+            if i % progr_report_freq == 0:
                 print(f'Grid search: {(i / grid_len) * 100}% done')
             self.model.set_params(**params)
             self.model.fit(x_train, y_train)
-            self.results[i] = {'params': str(params), 'value': self.model.score(x_val, y_val)}
+            curr_results[i] = {'params': str(params), 'value': self.model.score(x_val, y_val)}
 
-        self.results = pd.DataFrame.from_dict(self.results, orient='index')
+        self.results = pd.DataFrame.from_dict(curr_results, orient='index')
 
     def print_n_best(self, n):
         print(f'{n} best results:')
@@ -36,7 +36,6 @@ if __name__ == '__main__':
     import random
 
     from sklearn.ensemble import RandomForestClassifier
-    import pandas as pd
 
     PARAM_GRID = {'n_estimators': [2, 25], 'max_depth': [1, 10], 'criterion': ['gini']}
     df = pd.DataFrame(
