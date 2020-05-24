@@ -19,14 +19,15 @@ class GridSearchSK:
             self.model.fit(X_train, Y_train)
             self.results[i] = {'params': str(params), 'value': self.model.score(X_val, Y_val)}
 
-        self.results = pd.DataFrame.from_dict(self.results, orient='index').sort_values(by='value', ascending=False)
+        self.results = pd.DataFrame.from_dict(self.results, orient='index')
 
     def print_n_best(self, n):
         if self.results is None:
             raise AttributeError('Grid search was not fitted, use fit() method')
         if n > self.results.shape[0]:
             n = self.results.shape[0]
-        for i, row in self.results[:n].iterrows():
+        # TODO: change iterrows() to faster method
+        for i, row in self.results.sort_values(by='value', ascending=False)[:n].iterrows():
             print(f'{i}: {row["params"]} with value of {row["value"]}')
 
 
