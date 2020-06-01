@@ -1,5 +1,5 @@
 Tools for tuning the hyper-parameters that are based on scikit-learn modules, 
-but have different interface and output style (more convenient, in my opinion).  
+but have different interface and output style.  
 
 ### List of implemented modules
 - GridSearch
